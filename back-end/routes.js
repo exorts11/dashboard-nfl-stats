@@ -6,10 +6,10 @@ routes.get('/', (req, res)=>{
     req.getConnection((err, conn)=>{
         if(err) return res.send(err)
 
-        conn.query('SELECT * FROM nflplays.playdata', (err, rows)=>{
+        conn.query('SELECT * FROM playdata;', (err, rows)=>{
             if(err) return res.send(err)
-            
-            res.json(rows)            
+
+            res.json(rows)
         })
     })
 })
