@@ -33,7 +33,7 @@ app.use(cors(
   ));
 app.use(myconn(mysql, dbOptions, 'single'));
 app.use('/api', routes);
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
       "Access-Control-Allow-Methods",
@@ -44,7 +44,9 @@ app.use((req, res, next) => {
       return res.sendStatus(200);
     }
     next();
-  });
+  });*/
+
+
 // routes -------------------------
 app.get('/', (req, res) =>{
     res.send('Welcome to my API');

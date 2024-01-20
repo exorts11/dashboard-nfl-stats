@@ -1,16 +1,28 @@
 const fetchCoastersData = (...urls) => {
     /*const promises = urls.map(url => fetch(url).then(response => response.json()))
     */
-    const url = urls[0]
-    console.log(url)
-    fetch('http://127.0.0.1:9000/api', {
-        method: 'GET',
-        headers: { 'Content-type': 'application/json'}
-        })
-        .then(res => res.json())
-        .then(response => console.log(response))
+    /*const url = urls[0]
+    console.log(url)*/
+
+    const values = urls.map(url =>
+        fetch(url, {
+            method: 'GET',
+            headers: { 'Content-type': 'application/json'}
+            })
+            .then(res => res.json())
+            .then(data => {
+                let week = []
+                for (let i of data){
+                    week.push(i.avg_score)
+                }
+                return week
+            })
+    )
     
-    const values = [[1,2,3,4,5,6,7,8,9]]
+    /*
+    console.log(values)
+    */
+    /* const values = [[1,2,3,4,5,6,7,8,9]] */
     return Promise.all(values)
 }
 
