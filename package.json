@@ -19,6 +19,7 @@
   "homepage": "https://github.com/exorts11/dashboard-nfl-stats#readme",
   "dependencies": {
     "chart.js": "^4.4.1",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-myconnection": "^1.0.4",
     "mysql": "^2.18.1"

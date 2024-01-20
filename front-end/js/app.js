@@ -3,8 +3,12 @@ Chart.defaults.borderColor = '#444'
 
 const printCharts = () => {
 
-    renderModelsChart()
-
+    fetchCoastersData('http://127.0.0.1:9000/api')
+        .then(([values]) => {
+            renderAvgScoredPoint(values)
+            renderModelsChart()
+        })
+            
     /*fetchCoastersData('https://coasters-api.herokuapp.com', 'https://coasters-api.herokuapp.com/country/Spain')
         .then(([allCoasters, nationalCoasters]) => {
             renderModelsChart(allCoasters)
@@ -70,17 +74,19 @@ const renderModelsChart = () => {
     new Chart('featuresChart', { type: 'radar', data, options })
 }
 
+*/
 
 
 
-const renderYearsChart = coasters => {
+const renderAvgScoredPoint = (values) => {
 
-    const years = ['1998-2000', '2001-2003', '2004-2006', '2007-2009', '2013-2015', '2016-2018', '2019-2021']
-
+    const weeks = ['1','2','3','4','5','6','7', '8', '9']
+    /*const datos = [1,2,3,4,5,6,7]*/
     const data = {
-        labels: years,
+        labels: weeks,
         datasets: [{
-            data: getCoastersByYear(coasters, years),
+            /*data: getCoastersByYear(coasters, years),*/
+            data: values,
             tension: .5,
             borderColor: getDataColors()[1],
             backgroundColor: getDataColors(20)[1],
@@ -97,7 +103,6 @@ const renderYearsChart = coasters => {
 
     new Chart('yearsChart', { type: 'line', data, options })
 }
-*/
 
 
 printCharts()

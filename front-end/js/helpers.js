@@ -1,6 +1,17 @@
 const fetchCoastersData = (...urls) => {
-    const promises = urls.map(url => fetch(url).then(response => response.json()))
-    return Promise.all(promises)
+    /*const promises = urls.map(url => fetch(url).then(response => response.json()))
+    */
+    const url = urls[0]
+    console.log(url)
+    fetch('http://127.0.0.1:9000/api', {
+        method: 'GET',
+        headers: { 'Content-type': 'application/json'}
+        })
+        .then(res => res.json())
+        .then(response => console.log(response))
+    
+    const values = [[1,2,3,4,5,6,7,8,9]]
+    return Promise.all(values)
 }
 
 const getDataColors = opacity => {
