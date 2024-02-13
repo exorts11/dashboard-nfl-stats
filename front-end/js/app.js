@@ -7,6 +7,7 @@ const printCharts = (team = 'global') => {
     console.log(team)
     fetchCoastersData(url)
         .then(([values]) => {
+            console.log(values)
             renderAvgScoredPoint(values)
             renderModelsChart()
             enableEventHandlers()
@@ -91,13 +92,20 @@ const renderModelsChart = () => {
 
 const renderAvgScoredPoint = (values) => {
 
+    console.log(values)
     const weeks = ['1','2','3','4','5','6','7', '8', '9']
     /*const datos = [1,2,3,4,5,6,7]*/
+
+    let avg_score = []
+    for (let i of values){
+        avg_score.push(i.avg_score)
+    }
+
     const data = {
         labels: weeks,
         datasets: [{
             /*data: getCoastersByYear(coasters, years),*/
-            data: values,
+            data: avg_score,
             tension: .5,
             borderColor: getDataColors()[1],
             backgroundColor: getDataColors(20)[1],

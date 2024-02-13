@@ -15,7 +15,15 @@ routes.get('/:team', (req, res)=>{
                 res.send(rows)
             })
         }else{
-            conn.query(`SELECT week, (AVG(homeFinalScore) + AVG(visitorFinalScore))/2 as avg_score from games where homeTeamAbbr = '${team}' or visitorTeamAbbr = '${team}' group by week;`, (err, rows)=>{
+            conn.query(
+                `SELECT week,
+                    CASE
+                        WHEN homeTeamAbbr = '${team}' THEN homeFinalScore
+                        WHEN visitorTeamAbbr = '${team}' THEN visitorFinalScore
+                    END AS avg_score
+                FROM games
+                WHERE homeTeamAbbr = '${team}' or visitorTeamAbbr = '${team}'
+                GROUP BY week;`, (err, rows)=>{
                 if(err) return res.send(err)
 
 

@@ -10,13 +10,14 @@ const fetchCoastersData = (...urls) => {
             headers: { 'Content-type': 'application/json'}
             })
             .then(res => res.json())
-            .then(data => {
-                let week = []
-                for (let i of data){
-                    week.push(i.avg_score)
-                }
-                return week
-            })
+            //.then(data => {
+            //    let avg_score = []
+            //    for (let i of data){
+            //        avg_score.push(i.avg_score)
+            //    }
+//
+            //    return avg_score
+            //})
     )
     
     /*

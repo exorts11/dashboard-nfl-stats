@@ -11,7 +11,14 @@ const enableEventHandlers = () => {
         let url = `http://127.0.0.1:9000/api/${team}`
         fetchCoastersData(url)
         .then(([newData]) => {
-            updateChartData('yearsChart', newData, weeks)
+
+            let avg_score = []
+            for (let i of newData){
+                avg_score.push(i.avg_score)
+            }
+
+            //console.log(newData)
+            updateChartData('yearsChart', avg_score, weeks)
         })
     }
 
