@@ -1,11 +1,19 @@
-const enableEventHandlers = coasters => {
+const enableEventHandlers = () => {
 
     document.querySelector('#featuresOptions').onchange = e => {
 
-        const { value: property, text: label } = e.target.selectedOptions[0]
+        const { value: team, text: label } = e.target.selectedOptions[0]
+        const weeks = ['1','2','3','4','5','6','7', '8', '9']
 
-        const newData = coasters.map(coaster => coaster[property])
+        //console.log(team, label)
 
-        updateChartData('featuresChart', newData, label)
+        //const newData = coasters.map(coaster => coaster[property])
+        let url = `http://127.0.0.1:9000/api/${team}`
+        fetchCoastersData(url)
+        .then(([newData]) => {
+            updateChartData('yearsChart', newData, weeks)
+        })
     }
+
+    
 }

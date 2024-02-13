@@ -1,14 +1,25 @@
 Chart.defaults.color = '#fff'
 Chart.defaults.borderColor = '#444'
 
-const printCharts = () => {
+const printCharts = (team = 'global') => {
 
-    fetchCoastersData('http://127.0.0.1:9000/api')
+    let url = `http://127.0.0.1:9000/api/${team}`
+    console.log(team)
+    fetchCoastersData(url)
         .then(([values]) => {
             renderAvgScoredPoint(values)
             renderModelsChart()
+            enableEventHandlers()
         })
-            
+    }
+
+    
+    //fetchCoastersData('http://127.0.0.1:9000/api/global')
+    //    .then(([values]) => {
+    //        renderAvgScoredPoint(values)
+    //        renderModelsChart()
+    //    })
+    //        
     /*fetchCoastersData('https://coasters-api.herokuapp.com', 'https://coasters-api.herokuapp.com/country/Spain')
         .then(([allCoasters, nationalCoasters]) => {
             renderModelsChart(allCoasters)
@@ -17,7 +28,7 @@ const printCharts = () => {
             enableEventHandlers(nationalCoasters)
         })*/
 
-}
+
 
 
 
