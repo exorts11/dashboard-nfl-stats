@@ -21,7 +21,7 @@ const fetchCoastersData = (...urls) => {
     )
     
     /*
-    console.log(values)
+    console.log(Promise.all(values))
     */
     /* const values = [[1,2,3,4,5,6,7,8,9]] */
     return Promise.all(values)

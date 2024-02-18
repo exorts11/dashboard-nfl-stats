@@ -3,13 +3,15 @@ Chart.defaults.borderColor = '#444'
 
 const printCharts = (team = 'global') => {
 
-    let url = `http://127.0.0.1:9000/api/${team}`
-    console.log(team)
-    fetchCoastersData(url)
-        .then(([values]) => {
-            console.log(values)
+    let scoredPointsChart = `http://127.0.0.1:9000/api/scoredPoints/${team}`
+    let offensiveFormations = `http://127.0.0.1:9000/api/offensiveFormations/${team}`
+    //console.log(team)
+    fetchCoastersData(scoredPointsChart, offensiveFormations)
+        .then(([values, valuesFormations]) => {
+            //console.log(values)
+            console.log(valuesFormations)
             renderAvgScoredPoint(values)
-            renderModelsChart()
+            renderModelsChart(valuesFormations)
             enableEventHandlers()
         })
     }
@@ -33,16 +35,25 @@ const printCharts = (team = 'global') => {
 
 
 
-const renderModelsChart = () => {
+const renderModelsChart = (valuesFormations) => {
 
     /*const uniqueModels = [...new Set(coasters.map(coaster => coaster.model))]*/
-    const uniqueModels = ['uno', 'dos', 'tres']
+    //const formations = ['uno', 'dos', 'tres']
+    let formations = []
+    let frequency = []
+    for (let i of valuesFormations){
+        console.log(i)
+        formations.push(i.offensiveFormation)
+        frequency.push(i.frequency)
+    }
+
 
     const data = {
-        labels: uniqueModels,
+        labels: formations,
         datasets: [{
             /*data: uniqueModels.map(currentModel => coasters.filter(coaster => coaster.model === currentModel).length),*/
-            data: [10,20,30],
+            //data: [10,20,30],
+            data: frequency,
             borderColor: getDataColors(),
             backgroundColor: getDataColors(20)
         }]
@@ -92,7 +103,7 @@ const renderModelsChart = () => {
 
 const renderAvgScoredPoint = (values) => {
 
-    console.log(values)
+    //console.log(values)
     const weeks = ['1','2','3','4','5','6','7', '8', '9']
     /*const datos = [1,2,3,4,5,6,7]*/
 
@@ -120,7 +131,7 @@ const renderAvgScoredPoint = (values) => {
         }
     }
 
-    new Chart('yearsChart', { type: 'line', data, options })
+    new Chart('scoredPoints', { type: 'line', data, options })
 }
 
 

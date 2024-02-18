@@ -1,5 +1,6 @@
 const enableEventHandlers = () => {
 
+    // scoredPoints graph
     document.querySelector('#featuresOptions').onchange = e => {
 
         const { value: team, text: label } = e.target.selectedOptions[0]
@@ -8,8 +9,8 @@ const enableEventHandlers = () => {
         //console.log(team, label)
 
         //const newData = coasters.map(coaster => coaster[property])
-        let url = `http://127.0.0.1:9000/api/${team}`
-        fetchCoastersData(url)
+        let scoredPointsChart = `http://127.0.0.1:9000/api/scoredPoints/${team}`
+        fetchCoastersData(scoredPointsChart)
         .then(([newData]) => {
 
             let avg_score = []
@@ -18,9 +19,8 @@ const enableEventHandlers = () => {
             }
 
             //console.log(newData)
-            updateChartData('yearsChart', avg_score, weeks)
+            updateChartData('scoredPoints', avg_score, weeks)
         })
     }
-
     
 }

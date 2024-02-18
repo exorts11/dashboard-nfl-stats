@@ -1,3 +1,5 @@
+/* 		CREATE TABLES		*/
+
 use nflplays;
 SELECT * FROM playdata;
 insert into playdata (gameId, playId) values (3,4);
@@ -113,22 +115,8 @@ VALUES
 <{expectedPoints: }>,
 <{expectedPointsAdded: }>);
 
-use nflplays;
-select count(*) from plays;
 
-SELECT possessionTeam, AVG(playResult) from plays group by possessionTeam;
-
-select * from games where homeTeamAbbr = 'BUF' or visitorTeamAbbr = 'BUF';
-
-Select * FROM (
-select homeTeamAbbr, AVG(homeFinalScore), AVG(visitorFinalScore) from games group by homeTeamAbbr) AS asdf;
-
-SELECT week, (AVG(homeFinalScore) + AVG(visitorFinalScore))/2 as avg_score from games where homeTeamAbbr = 'PHI' or visitorTeamAbbr = 'PHI' group by week;
-
-SELECT week, (AVG(homeFinalScore) + AVG(visitorFinalScore))/2 as avg_score from games group by week;
-
-SELECT DISTINCT homeTeamAbbr from games;
-
+/* 		INSERT TABLES		*/
 INSERT INTO `nflplays`.`games`
 (`gameId`,
 `season`,
@@ -149,6 +137,33 @@ VALUES
 <{visitorTeamAbbr: }>,
 <{homeFinalScore: }>,
 <{visitorFinalScore: }>);
+
+
+/*		AVERAGE SCORED POINTS PER WEEK		*/
+use nflplays;
+select count(*) from plays;
+
+SELECT possessionTeam, AVG(playResult) from plays group by possessionTeam;
+
+select * from games where homeTeamAbbr = 'BUF' or visitorTeamAbbr = 'BUF';
+
+Select * FROM (
+select homeTeamAbbr, AVG(homeFinalScore), AVG(visitorFinalScore) from games group by homeTeamAbbr) AS asdf;
+
+SELECT week, (AVG(homeFinalScore) + AVG(visitorFinalScore))/2 as avg_score from games where homeTeamAbbr = 'CIN' or visitorTeamAbbr = 'CIN' group by week;
+
+SELECT week,
+	CASE
+		WHEN homeTeamAbbr = 'MIN' THEN homeFinalScore
+		WHEN visitorTeamAbbr = 'MIN' THEN visitorFinalScore
+    END AS avg_score
+FROM games
+WHERE homeTeamAbbr = 'MIN' or visitorTeamAbbr = 'MIN'
+GROUP BY week;
+
+SELECT week, (AVG(homeFinalScore) + AVG(visitorFinalScore))/2 as avg_score from games group by week;
+
+SELECT DISTINCT homeTeamAbbr from games;
 
 
 
@@ -193,4 +208,33 @@ SELECT * FROM nflplays.avg_data;
 SELECT AVG(avg_data.avg_yards) AS yards, AVG(avg_data.avg_score) AS score, AVG(avg_data.yrd_per_pnt) AS yrd_per_pnt FROM nflplays.avg_data;
 
 
+/*		FORMATION DISTRIBUTION		*/
+SELECT * FROM nflplays.plays;
+SELECT DISTINCT(offenseFormation) FROM nflplays.plays;
 
+SELECT gameID, possessionTeam, offenseFormation, COUNT(offenseFormation)
+FROM nflplays.plays
+GROUP BY gameID, possessionTeam, offenseFormation
+ORDER BY gameID, possessionTeam, offenseFormation DESC;
+
+-- BY TEAM
+DROP VIEW IF EXISTS nflplays.frequency_formations_by_team;
+CREATE VIEW frequency_formations_by_team AS
+SELECT possessionTeam AS team, offenseFormation AS offensiveFormation, COUNT(offenseFormation) AS frequency
+FROM nflplays.plays
+GROUP BY possessionTeam, offenseFormation
+ORDER BY possessionTeam, offenseFormation DESC;
+
+SELECT * 
+FROM nflplays.frequency_formations_by_team
+WHERE team='ARI';
+
+-- 	GLOBAL
+DROP VIEW IF EXISTS nflplays.frequency_formations_global;
+CREATE VIEW frequency_formations_global AS
+SELECT offenseFormation AS offensiveFormation, COUNT(offenseFormation) AS frequency
+FROM nflplays.plays
+GROUP BY offenseFormation
+ORDER BY offenseFormation DESC;
+
+SELECT * FROM nflplays.frequency_formations;
