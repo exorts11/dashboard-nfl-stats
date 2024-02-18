@@ -11,7 +11,7 @@ const printCharts = (team = 'global') => {
             //console.log(values)
             console.log(valuesFormations)
             renderAvgScoredPoint(values)
-            renderModelsChart(valuesFormations)
+            renderFormationFrequency(valuesFormations)
             enableEventHandlers()
         })
     }
@@ -35,7 +35,7 @@ const printCharts = (team = 'global') => {
 
 
 
-const renderModelsChart = (valuesFormations) => {
+const renderFormationFrequency = (valuesFormations) => {
 
     /*const uniqueModels = [...new Set(coasters.map(coaster => coaster.model))]*/
     //const formations = ['uno', 'dos', 'tres']
@@ -65,7 +65,7 @@ const renderModelsChart = (valuesFormations) => {
         }
     }
 
-    new Chart('modelsChart', { type: 'doughnut', data, options })
+    new Chart('formationFrequency', { type: 'doughnut', data, options })
 }
 
 
